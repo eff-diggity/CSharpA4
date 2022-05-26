@@ -29,10 +29,15 @@ namespace TechJobsPersistent.Controllers
             return View(jobs);
         }
 
+        //Two action methods in HomeController, AddJob() and ProcessAddJobForm(),
+        //will work together to return the view that contains the form and handle
+        //form submission.
         [HttpGet("/Add")]
         public IActionResult AddJob()
-        {
-            return View();
+        {//In AddJob() pass an instance of AddJobViewModel to the view.
+            AddJobViewModel addJobViewModel = new AddJobViewModel(); //FG <=== ??
+
+            return View(addJobViewModel); //FG <=== ??
         }
 
         public IActionResult ProcessAddJobForm()
