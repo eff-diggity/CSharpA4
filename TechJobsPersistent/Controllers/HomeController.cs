@@ -25,7 +25,8 @@ namespace TechJobsPersistent.Controllers
         public IActionResult Index()
         {
             List<Job> jobs = context.Jobs.Include(j => j.Employer).ToList();
-
+            //"grabs all jobs from the db that have an employer"
+            //but all jobs HAVE to have an employer-double verification, kinda overkill
             return View(jobs);
         }
 
@@ -35,15 +36,49 @@ namespace TechJobsPersistent.Controllers
         [HttpGet("/Add")]
         public IActionResult AddJob()
         {//In AddJob() pass an instance of AddJobViewModel to the view.
-            AddJobViewModel addJobViewModel = new AddJobViewModel(); //FG <=== ??
+            List<Employer> employers = context.Employers.ToList();
+            AddJobViewModel addJobViewModel = new AddJobViewModel(employers); //FG <=== ??
 
             return View(addJobViewModel); //FG <=== ??
         }
 
-        public IActionResult ProcessAddJobForm()
+        [HttpPost]
+        public IActionResult ProcessAddJobForm(AddJobViewModel addJobViewModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                Employer newEmployer = new Employer
+                {
+                    Name = addJobViewModel.Name,
+                    Id = addJobViewModel.EmployerId
+                };
+                context.Employers.Add(newEmployer);
+                context.SaveChanges();
+                return Redirect("/Employer");
+
+            }
+            return View("Add", addJobViewModel);
         }
+
+
+        //[HttpPost]
+        //public IActionResult ProcessAddEmployerForm(AddEmployerViewModel addEmployerViewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        Employer newEmployer = new Employer
+        //        {
+        //            Name = addEmployerViewModel.Name,
+        //            Location = addEmployerViewModel.Location,
+
+        //        };
+        //        context.Employers.Add(newEmployer);
+        //        context.SaveChanges();
+        //        return Redirect("/Employer");
+        //    }
+        //    return View("Add", addEmployerViewModel);
+
+        //}
 
         public IActionResult Detail(int id)
         {

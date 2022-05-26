@@ -35,10 +35,7 @@ namespace TechJobsPersistent.Controllers
             return View(addEmployerViewModel);
         }
 
-        //Add the appropriate code to ProcessAddEmployerForm() so that it will
-        //process form submissions and make sure that only valid Employer objects
-        //are being saved to the database
-
+       
         [HttpPost]
         public IActionResult ProcessAddEmployerForm(AddEmployerViewModel addEmployerViewModel)
         {

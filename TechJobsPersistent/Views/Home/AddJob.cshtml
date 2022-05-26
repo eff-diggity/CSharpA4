@@ -1,19 +1,5 @@
-﻿@using TechJobsPersistent.ViewModels;  
+﻿@using TechJobsPersistent.ViewModels;
 @model AddJobViewModel;
-@{//In AddJob.cshtml, add a new <div class="form-group"> element to the form. Add the 
-// appropriate <label> and <input> tags to the new <div> element to create the form field 
-// to add employer information to the job. This field should be a dropdown menu with all 
-// of the employers in the database. In addition, add a link to the <div> element to add 
-// new employers. This way, if a user doesn’t see the employer they are looking for, they 
-// can easily click on the link and add a new employer to the database.
-
-//COLIN:
-
-//Yeah, it's kind of not explained the best but essentially it just means if you make a select menu
-//So all you need to know really is that when you're making this new form group and you make a <select> element
-//You can use asp-items="@Model.Employers" and that will auto-populate that new select 
-// list with w/e Employers you have in your database
-}
 
 <h1>Add a Job</h1>
 
@@ -24,13 +10,11 @@
         <span></span>
     </div>
 
-     <div class="form-group">
-        <label asp-for="EmployerId">Employers</label> <!--shoudli remove the Emlpoyers between the labels?-->
-        <select name="Employers">
-            <option value="Employers">XXXXXXX</option> <!-- like employer.name or something??-->
-        </select>
-        <input asp-for="Employers"/>
-        <span></span>
+    <div class="form-group">
+        <label asp-for="EmployerId">Employer</label>
+        <select asp-for="EmployerId" asp-items="Model.Employers"></select>
+        <a asp-controller="Employer" asp-action="Add">Enter new employer</a>
+
     </div>
 
     <input type="submit" value="Add Job" />
@@ -39,10 +23,11 @@
 
 
 
-   <label>Facility:
-   <select name="facility">
-      <option value="johnson">Johnson Space Center, TX</option>
-      <option value="kennedy">Kennedy Space Center, FL</option>
-      <option value="white-sands">White Sands Test Facility, NM</option>
-   </select>
-   </label>
+<label>
+    Facility:
+    <select name="facility">
+        <option value="johnson">Johnson Space Center, TX</option>
+        <option value="kennedy">Kennedy Space Center, FL</option>
+        <option value="white-sands">White Sands Test Facility, NM</option>
+    </select>
+</label>

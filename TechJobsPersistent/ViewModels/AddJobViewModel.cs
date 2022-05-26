@@ -1,15 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using TechJobsPersistent.Models;
 
 namespace TechJobsPersistent.ViewModels
-{//You will need properties for the job’s name, the selected employer’s ID, and a list of all employers as SelectListItem.
+{
     public class AddJobViewModel
-    {
+    {//data being SENT to form, not validating data
+        [Required] //(ErrorMessage = "XXX is required.")] //whats required? do i need this?
         public int EmployerId { get; set; }
-
         public string Name { get; set; }
 
-        public List<SelectListItem> Employers { get; set; } //<===???
+        public List<SelectListItem/*type*/> Employers { get; set; }
+
+        public AddJobViewModel(List<Employer> employers)//constructor
+        {   
+            Employers = new List<SelectListItem>();
+
+            foreach (var employer in employers)//looping the parameter from 16
+            {
+                Employers.Add(
+                new SelectListItem
+                {
+                    Value = employer.Id.ToString(),
+                    Text = employer.Name
+                }
+                );
+            }
+        }
+        public AddJobViewModel()
+        {
+
+        }
     }
 }
