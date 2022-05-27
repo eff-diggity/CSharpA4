@@ -65,6 +65,7 @@ namespace TechJobsPersistent.Controllers
                 int skillId = viewModel.SkillId;
 
                 List<JobSkill> existingItems = context.JobSkills
+                    //queries for existing JobSkills to not duplicate entried
                     .Where(js => js.JobId == jobId)
                     .Where(js => js.SkillId == skillId)
                     .ToList();
@@ -85,17 +86,15 @@ namespace TechJobsPersistent.Controllers
 
             return View(viewModel);
         }
-
-        public IActionResult About(int id)
-        {
+        public IActionResult Detail(int id) //<==== ?????
+        {//query join class jobs with given skill
             List<JobSkill> jobSkills = context.JobSkills
-                .Where(js => js.SkillId == id)
-                .Include(js => js.Job)
-                .Include(js => js.Skill)
-                .ToList();
+                  .Where(et => et.SkillId == id)//filters JobSkills to search id
+                  .Include(et => et.Job)//"eager load"
+                  .Include(et => et.Skill)
+                  .ToList();//turns search results into list
 
             return View(jobSkills);
         }
-
     }
 }

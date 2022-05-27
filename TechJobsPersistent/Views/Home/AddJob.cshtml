@@ -1,23 +1,40 @@
 ﻿@using TechJobsPersistent.ViewModels;
-@model AddJobViewModel;
+@model AddJobViewModel; // <===== should it be AddJobSkillViewModel??
+@using TechJobsPersistent.Models;
 
-<h1>Add a Job</h1>
+
+<!--  Could also be (at symbol)model TechJobsPersistent.ViewModels.AddJobViewModel-->
+
+<h1>Add a Job:</h1>
 
 <form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
+    <!--passes model obj for Job to be instance of AddJobSkillVM-->
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" />
+        <input asp-for="Name" class="form-control" />
         <span></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="EmployerId">Employer</label>
-        <select asp-for="EmployerId" asp-items="Model.Employers"></select>
+        <!--  dropdown list of skills (skills in AddJobSkillVM with selectlist) when form posted, controller needs to know -->
+        <label asp-for="EmployerId">Employer</label>  
+        <select asp-for="EmployerId" asp-items="Model.Employers"></select> 
         <a asp-controller="Employer" asp-action="Add">Enter new employer</a>
+    </div>
+
+
+    <div class="form-group">
+        @foreach (Skill skill in Model.Skills)
+        {
+            <label>@skill.Name</label>
+            <input type="checkbox" name="selectedSkills" value="@skill.Id" />
+        }
+        <a asp-controller="Skill" asp-action="Add">Enter new skill</a>
 
     </div>
 
     <input type="submit" value="Add Job" />
+
 </form>
 
 

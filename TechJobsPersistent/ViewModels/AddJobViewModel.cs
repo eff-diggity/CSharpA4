@@ -10,12 +10,14 @@ namespace TechJobsPersistent.ViewModels
         [Required] //(ErrorMessage = "XXX is required.")] //whats required? do i need this?
         public int EmployerId { get; set; }
         public string Name { get; set; }
-
         public List<SelectListItem/*type*/> Employers { get; set; }
+        public List<Skill> Skills { get; set; } //<=====???
 
-        public AddJobViewModel(List<Employer> employers)//constructor
-        {   
-            Employers = new List<SelectListItem>();
+
+        public AddJobViewModel(List<Employer> employers, List<Skill> skills)//constructor
+        {
+            Employers = new List<SelectListItem>();//<=====???
+            Skills = skills;
 
             foreach (var employer in employers)//looping the parameter from 16
             {
